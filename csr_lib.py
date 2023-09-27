@@ -24,7 +24,7 @@ class Simulation:
         self.initial_resource = cfg['resource_position']
         self.resource = copy.deepcopy(self.initial_resource)
         self.num_R = len(cfg['resource_position'])
-        self.R_Caught = np.zeros(self.num_R, dtype=np.bool)
+        self.R_Caught = np.zeros(self.num_R,dtype=np.bool)
 
         self.arena = ConvexPolygon(cfg['map_boundaries'])
         self.world = World(self.arena)
@@ -49,6 +49,7 @@ class Simulation:
 
         # Initial conditions of each drone
         for i in range(self.n_agents):
+
             self.x_signal[i, :, 0] = cfg['agent_position'][i]
         self.cpx = [[] for _ in range(self.n_agents)]
         self.cpy = [[] for _ in range(self.n_agents)]
@@ -77,7 +78,10 @@ class Simulation:
         for i in range(self.n_agents):
             for j in range(self.n_agents):
                 xij[i][j] = self.x_signal[i, :, self.t] - self.x_signal[j, :, self.t]
-                if np.linalg.norm(xij[i][j], 2) > self.MAX_RANGE:
+                if i==j:
+                    self.position_mtx[i][j] = 0
+                    self.position_mtx[j][i] = 0
+                elif np.linalg.norm(xij[i][j], 2) > self.MAX_RANGE:
                     xij[i][j][0] = 0
                     xij[i][j][1] = 0
                     self.position_mtx[i][j] = 0
@@ -116,18 +120,23 @@ class Simulation:
                 u_control[i] = [0, 0]
                 prox_mtx[0][i] = 99
                 prox_mtx[1][i] = 99
-            if all(self.position_mtx[i] == 0):
-                u_control = [0, 0]
+            if all(self.position_mtx[i] == np.zeros(self.n_agents)) and i != self.leader:
+
+                u_control[i] = [0, 0]
 
         self.closest_drones(prox_mtx)
+
+
         for i in range(self.num_R):
-            if i + 1 in self.w_R_mtx:
+            if i+1 in self.w_R_mtx:
                 self.R_Caught[i] = True
+            else:
+                self.R_Caught[i] = False
+
 
         # Saturate the control inputs between -1 and 1
         for a, u in enumerate(u_control):
             self.u_signal[a, :, self.t] = np.clip(u, -1, 1)
-
             self.x_signal[a, :, self.t + 1] = step_f(self.x_signal[a, :, self.t], self.u_signal[a, :, self.t], self.dt)
 
         self.R_warehouse_check(points_vec)
@@ -276,7 +285,6 @@ class Simulation:
 
 def step_f(x, u, h):
     return x + u * h
-
 
 class Ellipse():
     '''
