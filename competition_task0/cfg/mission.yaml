@@ -9,10 +9,7 @@ agent_position:
 resource_position:
   - [7.5, 5]
 obstacles:
-  - Ellipse:
-      center: [7.0, 0.0]
-      angle: -15.0
-      axes: [3.0, 1.5]
+  - None:
 map_boundaries:
   - [10.0, -10.0]
   - [10.0, 10.0]
