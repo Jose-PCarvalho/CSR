@@ -1,0 +1,23 @@
+sim_time : 60
+dt : 0.02
+agent_position:
+  - [2.0, -9.0]
+  - [1.0, -9.0]
+  - [0.0, -9.0]
+  - [-1.0, -9.0]
+  - [-2.0, -9.0]
+resource_position:
+  - [7.5, 5]
+  - [-7.5, 7.5]
+map_boundaries:
+  - [10.0, -10.0]
+  - [10.0, 10.0]
+  - [-10.0, 10.0]
+  - [-10.0, -10.0]
+obstacles:
+  - None:
+max_dist_between_agents: 5
+pickup_dist: 1
+max_dist_with_resource: 3
+verbose: 1
+leader: 0
