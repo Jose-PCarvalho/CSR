@@ -176,7 +176,7 @@ class Simulation:
 
                     self.resource[i][0] = points_vec[index][0]
                     self.resource[i][1] = points_vec[index][1]
-                    self.time_score[i + 2] = t
+                    self.time_score[i + self.num_R] = t
                     self.w_R_mtx[index] = 0
                     self.w_R_mtx[index_2] = 0
                     self.R_delivered[i] = True
