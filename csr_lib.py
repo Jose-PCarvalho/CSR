@@ -28,12 +28,13 @@ class Simulation:
 
         self.arena = ConvexPolygon(cfg['map_boundaries'])
         self.world = World(self.arena)
-        for obs in cfg['obstacles']:
+        if 'obstacles' in cfg:
+            for obs in cfg['obstacles']:
 
-            if 'Ellipse' in obs:
-                obs_param = obs['Ellipse']
-                o = Ellipse(center=obs_param['center'], angle=np.radians(obs_param['angle']), axes=obs_param['axes'])
-            self.world.add_obstacle(o)
+                if 'Ellipse' in obs:
+                    obs_param = obs['Ellipse']
+                    o = Ellipse(center=obs_param['center'], angle=np.radians(obs_param['angle']), axes=obs_param['axes'])
+                    self.world.add_obstacle(o)
 
         # Time of simulation
         self.sim_time = cfg['sim_time']
