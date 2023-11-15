@@ -17,7 +17,7 @@ map_boundaries:
 obstacles:
   - Ellipse:
       center: [5.0, 0.0]
-      angle: 0
+      angle: -15
       axes: [3.0, 1.5]
   - Ellipse:
       center: [ -2.5, 6.5 ]
