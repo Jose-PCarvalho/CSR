@@ -24,7 +24,7 @@ class Simulation:
         self.initial_resource = cfg['resource_position']
         self.resource = copy.deepcopy(self.initial_resource)
         self.num_R = len(cfg['resource_position'])
-        self.R_Caught = np.zeros(self.num_R,dtype=np.bool)
+        self.R_Caught = np.zeros(self.num_R,dtype=bool)
 
         self.arena = ConvexPolygon(cfg['map_boundaries'])
         self.world = World(self.arena)
@@ -56,7 +56,7 @@ class Simulation:
 
         self.do = np.zeros(self.n_agents)  # Distance to obstacle
         self.d_mtx = np.zeros(self.n_agents)  # Damaged matrix
-        self.R_delivered = np.zeros(self.num_R, dtype=np.bool)  # Indicates if Resource was delivered at the warehouse
+        self.R_delivered = np.zeros(self.num_R, dtype=bool)  # Indicates if Resource was delivered at the warehouse
         self.w_R_mtx = np.zeros(self.n_agents)  # Matrix that tells if a pair of drones caught some R
         self.time_score = 999.9 * np.ones(
             self.num_R * 2)  # 0 - caught R_1, 1 - caught R_2, 2 - drop R_1 in warehouse, 3 - drop R_2 in warehouse
